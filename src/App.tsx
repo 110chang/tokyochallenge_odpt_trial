@@ -3,10 +3,15 @@ import useSWR from 'swr';
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
+function useTrainInfromationAPI() {
   const { data, error } = useSWR(
     `https://api-tokyochallenge.odpt.org/api/v4/odpt:TrainInformation?acl:consumerKey=${process.env.REACT_APP_ACL_CONSUMERKEY}`,
-  )
+  );
+  return { data, error };
+}
+
+function App() {
+  const { data, error } = useTrainInfromationAPI()
   error && console.error(error)
   return (
     <div className="App">
