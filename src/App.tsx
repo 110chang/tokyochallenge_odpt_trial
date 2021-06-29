@@ -1,16 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import useSWR from 'swr';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  useEffect(() => {
-    (async () => {
-      const res = await fetch(`https://api-tokyochallenge.odpt.org/api/v4/odpt:Train?acl:consumerKey=${process.env.REACT_APP_ACL_CONSUMERKEY}`)
-      console.log(res)
-      const json = await res.json();
-      console.log(json)
-    })()
-  })
+  const { data, error } = useSWR(
+    `https://api-tokyochallenge.odpt.org/api/v4/odpt:TrainInformation?acl:consumerKey=${process.env.REACT_APP_ACL_CONSUMERKEY}`,
+  )
+  error && console.error(error)
   return (
     <div className="App">
       <header className="App-header">
@@ -26,6 +23,13 @@ function App() {
         >
           Learn React
         </a>
+        {error ? (
+          <div>failed to load</div>
+        ) : data ? (
+          <div>{data.length}</div>
+        ) : (
+          <div>loading...</div>
+        )}
       </header>
     </div>
   );
