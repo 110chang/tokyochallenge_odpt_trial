@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  useEffect(() => {
+    (async () => {
+      const res = await fetch(`https://api-tokyochallenge.odpt.org/api/v4/odpt:Train?acl:consumerKey=${process.env.REACT_APP_ACL_CONSUMERKEY}`)
+      console.log(res)
+      const json = await res.json();
+      console.log(json)
+    })()
+  })
   return (
     <div className="App">
       <header className="App-header">
